@@ -3,7 +3,7 @@ import {} from "react-redux";
 import { getCookie } from "react-use-cookie";
 import { useCookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
-const init = {
+let init = {
   id: null,
   username: "",
   token: null,

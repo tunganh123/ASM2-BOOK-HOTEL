@@ -9,6 +9,27 @@ const Signup = () => {
     const reffullname = useRef()
     const refphone = useRef()
     const clickSignup = async () => {
+        // validate
+        if (refemail.current.value.trim().length == 0) {
+            alert("vui long nhap email")
+            return
+        }
+        if (refpassword.current.value.trim().length == 0) {
+            alert("vui long nhap password")
+            return
+        }
+        if (refusername.current.value.trim().length == 0) {
+            alert("vui long nhap username")
+            return
+        }
+        if (reffullname.current.value.trim().length == 0) {
+            alert("vui long nhap fullname")
+            return
+        }
+        if (refphone.current.value.trim().length == 0) {
+            alert("vui long nhap phone")
+            return
+        }
         const value = {
             email: refemail.current.value,
             password: refpassword.current.value,
