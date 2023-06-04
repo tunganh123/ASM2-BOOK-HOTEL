@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import jwt_decode from "jwt-decode"
 import user from '../../../store/user';
 import { useDispatch } from 'react-redux';
+import { setCookie } from "react-use-cookie"
+import { url_fetch } from '../../../utils/fetchdata';
 const Login = () => {
     const navi = useNavigate()
     const refemail = useRef()
@@ -16,7 +18,7 @@ const Login = () => {
         }
         const fetchdata = async () => {
             try {
-                const a = await fetch(`http://localhost:5000/login`, {
+                const a = await fetch(`${url_fetch}/login`, {
                     method: "POST",
                     body: JSON.stringify(value),
                     credentials: "include", // tao cookie phia client
@@ -27,9 +29,12 @@ const Login = () => {
                 });
                 if (a.status != 200) {
                     alert("thong tin k dung")
+                    return
                 }
                 const b = await a.json()
+                setCookie('token', b.token)
                 const c = jwt_decode(b.token)
+
                 dispatch(action.updateuser({
                     ...c,
                     token: b.token

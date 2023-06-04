@@ -3,8 +3,9 @@ import "./Contenttype.css"
 import TypeItem from "./TypeItem"
 import { Fetchdataget as fetchdataget } from '../../../utils/fetchdata';
 import { useSelector } from 'react-redux';
+import { getCookie } from "react-use-cookie"
 export default function Contenttype() {
-    const token = useSelector((state) => state.user).token
+    const token = getCookie("token")
     const [statedatatype, setstatedatatype] = useState([])
     useEffect(() => {
         fetchdataget("gethotel", token).then(

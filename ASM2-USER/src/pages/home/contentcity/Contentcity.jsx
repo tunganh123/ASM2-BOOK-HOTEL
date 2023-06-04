@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import CityItem from './CityItem';
 import "./Contentcity.css"
 import { useSelector } from 'react-redux';
+import { getCookie } from "react-use-cookie"
 import { Fetchdataget as fetchdataget } from '../../../utils/fetchdata';
 export default function Contentcity() {
     const [statedatacity, setstatedatacity] = useState([])
-    const token = useSelector((state) => state.user).token
+    const token = getCookie("token")
     useEffect(() => {
         const fetchzz = async () => {
             try {

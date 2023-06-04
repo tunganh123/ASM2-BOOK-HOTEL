@@ -3,9 +3,10 @@ import "./Contenthotel.css"
 import HoltelItem from './HoltelItem';
 import { Fetchdataget as fetchdataget } from '../../../utils/fetchdata';
 import { useSelector } from 'react-redux';
+import { getCookie } from "react-use-cookie"
 export default function Contenthotel() {
     const [statedatarating, setstatedatarating] = useState([])
-    const token = useSelector((state) => state.user).token
+    const token = getCookie("token")
     useEffect(() => {
         const fetchdat = async () => {
             try {

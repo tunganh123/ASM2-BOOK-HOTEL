@@ -19,11 +19,11 @@ exports.adminlogin = async (req, res) => {
         },
         "privateadmin"
       );
-      res.cookie("tokenadmin", token, {
-        httpOnly: false,
-        secure: false,
-        samesite: "strict",
-      });
+      // res.cookie("tokenadmin", token, {
+      //   httpOnly: false,
+      //   secure: false,
+      //   samesite: "strict",
+      // });
       res.status(200).json({ token: token });
     }
   }

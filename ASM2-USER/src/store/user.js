@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {} from "react-redux";
-
+import { getCookie } from "react-use-cookie";
+import { useCookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
 const init = {
   id: null,
   username: "",
@@ -9,6 +11,12 @@ const init = {
   fullname: "",
   phone: "",
 };
+const cookiee = getCookie("token");
+let ckdecode;
+if (cookiee) {
+  ckdecode = jwt_decode(cookiee);
+  init = ckdecode;
+}
 const user = createSlice({
   name: "user",
   initialState: init,

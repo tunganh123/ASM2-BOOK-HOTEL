@@ -20,10 +20,12 @@ exports.register = async (req, res) => {
         isAdmin: false,
       });
       user.save();
+      res.json();
     } else {
       res.json({ err: "Đã tồn tại user" });
     }
   } catch (error) {
+    res.json();
     console.log(error);
   }
 };
@@ -44,12 +46,12 @@ exports.login = async (req, res) => {
           },
           "private"
         );
-        res.cookie("token", token, {
-          path: "/",
-          httpOnly: false,
-          secure: false,
-          samesite: "strict",
-        });
+        // res.cookie("token", token, {
+        //   path: "/",
+        //   httpOnly: false,
+        //   secure: false,
+        //   samesite: "strict",
+        // });
         res.status(200).json({ token: token });
       } else res.status(404).send();
     } else res.status(404).send();
