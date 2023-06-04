@@ -1,0 +1,38 @@
+.divcontentform {
+
+    padding: 20px 30px;
+    background-color: rgb(15, 77, 211);
+    color: white;
+    margin: 0px 30px;
+
+    text-align: center;
+    line-height: 2.2;
+}
+
+.contentform p {
+    margin-bottom: 20px;
+}
+
+.contentform input {
+    display: inline-block;
+    border-radius: 10px;
+    border: none;
+    height: 3rem;
+    box-sizing: border-box;
+}
+
+.contentform input::placeholder {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.contentform button {
+    box-sizing: border-box;
+    height: 3rem;
+    margin-left: 10px;
+    background-color: rgb(91, 177, 235);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 10px
+}

@@ -1,0 +1,94 @@
+.divheader {
+    position: relative;
+    padding: 20px 0px;
+    background-color: rgb(15, 77, 211);
+    color: white;
+    margin: 0px 30px;
+    margin-bottom: 50px;
+}
+
+.divheader .header {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+
+.content {}
+
+.content h1 {
+    margin-bottom: 30px;
+}
+
+.content p {
+    margin-bottom: 20px;
+}
+
+.content button {
+    margin-left: 0;
+    background-color: rgb(91, 177, 235);
+    border: none;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.search {
+    position: absolute;
+    bottom: -25px;
+    right: 10%;
+    left: 10%;
+
+}
+
+.search div {
+    border-radius: 7px;
+    border: 5px solid rgb(241, 206, 5);
+}
+
+.search input {
+    font-size: 15px;
+    text-align: center;
+    font-family: FontAwesome, "Open Sans", Verdana, sans-serif;
+    box-sizing: border-box;
+    display: inline;
+    position: relative;
+    height: 50px;
+    width: 33.33%;
+    border: none;
+}
+
+
+
+input::placeholder {
+    font-size: 15px;
+    text-align: center;
+}
+
+.search .btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin: auto;
+    background-color: rgb(15, 77, 211);
+    border: none;
+    color: white;
+    font-weight: 700;
+    /* border-radius: 10px; */
+}
+
+.checkdate {
+
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 5;
+
+}
+
+.checkcount {
+    position: absolute;
+    top: 111%;
+    right: 17%;
+    z-index: 5;
+}

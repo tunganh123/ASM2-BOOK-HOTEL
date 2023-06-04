@@ -1,0 +1,14 @@
+.divcontent {
+    padding: 20px 30px;
+
+}
+
+.contentcity {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+
+    margin-left: 10%;
+    margin-right: 10%;
+}

@@ -1,0 +1,88 @@
+.divsearchlistitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    column-gap: 20px;
+    padding: 10px;
+    border: 0.5px solid rgb(152, 154, 161);
+    border-radius: 10px;
+}
+
+.divsearchlistitem img {
+    height: auto;
+    width: 100%;
+}
+
+.divsearchlistitem .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.divsearchlistitem .info .tagg {
+
+    width: 30%;
+    border: none;
+    background-color: rgb(42, 206, 56);
+    color: white;
+    text-align: center;
+    padding: 5px 3px;
+    border-radius: 10px;
+}
+
+.divsearchlistitem .info .description {
+    font-weight: 700;
+}
+
+.divsearchlistitem .info .check {
+    color: rgb(42, 206, 56);
+}
+
+.divsearchlistitem .info .one {
+    font-weight: 700;
+}
+
+.divsearchlistitem .pricerate {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.divsearchlistitem .pricerate .rate span:nth-of-type(1) {
+    font-weight: 700;
+}
+
+.divsearchlistitem .pricerate .rate span:nth-of-type(2) {
+    color: white;
+    padding: 5px;
+    background-color: rgb(15, 77, 211);
+}
+
+.divsearchlistitem .pricerate .rate {
+    display: flex;
+    justify-content: space-between;
+}
+
+.divsearchlistitem .pricerate .price {
+    font-size: 2rem;
+    font-weight: 700;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.divsearchlistitem .pricerate p {
+    clear: both;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.divsearchlistitem .pricerate button {
+    clear: both;
+    float: right;
+    border: none;
+    background-color: rgb(17, 43, 187);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}

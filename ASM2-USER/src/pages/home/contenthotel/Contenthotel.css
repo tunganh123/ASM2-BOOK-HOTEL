@@ -1,0 +1,21 @@
+.divcontentholtel {
+    padding: 0px 30px;
+    padding-bottom: 20px;
+}
+
+.divcontentholtel h2 {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 20px;
+
+}
+
+.contentholtel {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+
+    margin-left: 10%;
+    margin-right: 10%;
+}

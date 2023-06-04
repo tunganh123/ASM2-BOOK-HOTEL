@@ -1,0 +1,90 @@
+.divdetail {
+    padding: 20px 30px;
+
+}
+
+.detail {
+
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.detail .dt {
+    line-height: 2;
+    margin-bottom: 10px;
+}
+
+.detail .dt p:nth-of-type(2) {
+    color: rgb(1, 113, 187);
+}
+
+.detail .dt p:nth-of-type(3) {
+    color: rgb(17, 194, 56);
+}
+
+.detail .book {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.detail .book button {
+    border: none;
+    background-color: rgb(91, 177, 235);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.detail img {
+    height: 100%;
+    width: 100%;
+
+}
+
+.detail .img {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.detail .staynow {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 10px;
+}
+
+.detail .staynow .title p {
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+.detail .staynow .night {
+    background-color: rgb(187, 247, 255);
+    padding: 10px;
+}
+
+.detail .staynow .night p:nth-of-type(1) {
+    margin: 20px auto;
+}
+
+.detail .staynow .night p:nth-of-type(2) {
+    font-size: 2rem;
+}
+
+.detail .staynow .night span {
+    font-weight: 700;
+}
+
+.detail .staynow .night button {
+    border: none;
+    background-color: rgb(91, 177, 235);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-top: 20px;
+    width: 100%;
+}

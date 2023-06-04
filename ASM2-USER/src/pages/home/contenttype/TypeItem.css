@@ -1,0 +1,13 @@
+.typeitem {
+    display: inline-block;
+}
+
+.typeitem .imge {
+    height: 150px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.typeitem .cten .name {
+    font-weight: 700;
+}

@@ -1,0 +1,32 @@
+.divNavbar {
+    padding: 20px 0px;
+    background-color: rgb(15, 77, 211);
+    color: white;
+    margin: 0px 30px;
+}
+
+.Navbar {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.head div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divNavbar .service {
+    display: inline-block;
+}
+
+.btn {
+    margin: 5px;
+    padding: 10px;
+
+}
