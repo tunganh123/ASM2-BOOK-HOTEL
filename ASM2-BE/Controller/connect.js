@@ -20,12 +20,12 @@ exports.register = async (req, res) => {
         isAdmin: false,
       });
       user.save();
-      res.json();
+      res.json({ a: "b" });
     } else {
       res.json({ err: "Đã tồn tại user" });
     }
   } catch (error) {
-    res.json();
+    res.json({ a: "b" });
     console.log(error);
   }
 };
