@@ -187,9 +187,13 @@ exports.deleteroom = async (req, res) => {
       for (let index = 0; index < transaction[i].room.room.length; index++) {
         // Nếu danh sách room vừa click có chứa trong 1 giao dịch
         if (roomarritem.includes(transaction[i].room.room[index])) {
-          check = true;
-          res.status(200).json({ err: "Hotel đang có giao dịch" });
-          break;
+          // Check trường hợp có số phòng trùng
+          // => Phải thỏa mãn danh sách phòng của giao dịch này chứa mã id ( chứa phòng này)
+          if (transaction[i].hotel.rooms.includes(id)) {
+            check = true;
+            res.status(200).json({ err: "Hotel đang có giao dịch" });
+            break;
+          }
         }
       }
     }
