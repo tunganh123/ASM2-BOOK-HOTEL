@@ -153,7 +153,6 @@ exports.getdetailroom = async (req, res) => {
   }
 };
 exports.editdetailroom = async (req, res) => {
-  console.log(req.body);
   try {
     const updateroom = await Room.findByIdAndUpdate(
       req.body._id,
@@ -236,6 +235,7 @@ exports.addnewroom = async (req, res) => {
     if (!result) {
       throw new Error("Err save");
     }
+    res.json({});
   } catch (error) {
     console.log(error);
   }
