@@ -127,7 +127,7 @@ exports.addnewhotel = async (req, res) => {
       featured: data.featured,
       rooms: data.rooms.split(","),
     });
-    const result = hotelitem.save();
+    const result = await hotelitem.save();
     if (!result) {
       throw new Error("Err save");
     }
@@ -165,7 +165,7 @@ exports.editdetailroom = async (req, res) => {
     if (!updateroom) {
       throw new Error("err update");
     }
-    // res.status(200).json();
+    res.status(200).json({});
   } catch (error) {
     console.log(error);
   }
