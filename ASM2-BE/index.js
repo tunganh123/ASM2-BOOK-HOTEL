@@ -9,7 +9,7 @@ const bodyparser = require("body-parser");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const corsoption = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://localhost:3001"],
   credentials: true,
 };
 //set port

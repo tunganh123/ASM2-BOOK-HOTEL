@@ -9,27 +9,12 @@ import { getCookie } from 'react-use-cookie';
 import jwt_decode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { Fetchdataget } from '../utils/fetchdata';
+import { Navbar } from './UI/Navbar';
 const Home = () => {
     const [stateinfoboard, setstateinfoboard] = useState()
     const [statetransaction, settransaction] = useState([])
-    const action = stateadmin.actions;
-    const dispatch = useDispatch()
     const admin = useSelector(state => state.admin)
-    const ckadmin = getCookie("tokenadmin")
-    let adminvl = ""
-    if (ckadmin) {
-        adminvl = jwt_decode(ckadmin)
-    }
-    // set store khi dang nhap lai
-    if (!admin.email) {
-        if (adminvl) {
-            let dataadmin = {
-                email: adminvl.email,
-                token: ckadmin
-            }
-            dispatch(action.updateadmin(dataadmin))
-        }
-    }
+
     // logout
     const clicklogout = () => {
         const logout = async () => {
@@ -61,10 +46,7 @@ const Home = () => {
                     {/* Main Content */}
                     <div id="content">
                         {/* Topbar */}
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                            <label htmlFor="" style={{ marginBottom: "0" }} >{admin.email}</label>
-                            <Link to={"/"} onClick={clicklogout} style={{ margin: "1rem", border: "none", textDecoration: "none" }}>Logout</Link>
-                        </div>
+                        <Navbar />
                         {/* End of Topbar */}
                         {/* Begin Page Content */}
                         <div className="container-fluid">

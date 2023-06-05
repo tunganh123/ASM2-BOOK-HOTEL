@@ -3,6 +3,7 @@ import Sidebar from './UI/Sidebar';
 import { Fetchdataget } from '../utils/fetchdata';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
+import { Navbar } from './UI/Navbar';
 const Alltransaction = () => {
     const admintoken = getCookie("tokenadmin")
     const [statealltransaction, setalltransaction] = useState([])
@@ -27,6 +28,7 @@ const Alltransaction = () => {
                 <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
                     {/* Main Content */}
                     <div id="content">
+                        <Navbar />
                         {/* Topbar */}
                         <div className="container-fluid">
                             <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>

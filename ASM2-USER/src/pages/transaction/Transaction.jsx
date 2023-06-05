@@ -18,7 +18,6 @@ const Transaction = () => {
         }
         fetchnow()
     }, [state])
-    console.log(statedata)
     return (
         <>
             <Navbar />
@@ -45,7 +44,7 @@ const Transaction = () => {
                                     let timeend = new Date(item.dataEnd);
                                     let a = timestart.toLocaleDateString()
                                     let b = timeend.toLocaleDateString()
-                                    return <tr>
+                                    return <tr key={i}>
                                         <th scope="row">{i + 1}</th>
                                         <td>{item.hotel.name}</td>
                                         <td>{item.room.room.join(",")}</td>

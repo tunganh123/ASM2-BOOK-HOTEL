@@ -5,6 +5,7 @@ import HotelItem from './HotelItem';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
+import { Navbar } from '../UI/Navbar';
 const Hotellist = () => {
     const admintoken = getCookie("tokenadmin")
     const navi = useNavigate()
@@ -45,6 +46,7 @@ const Hotellist = () => {
                 <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
                     {/* Main Content */}
                     <div id="content">
+                        <Navbar />
                         {/* Topbar */}
                         <div className="container-fluid">
                             <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>

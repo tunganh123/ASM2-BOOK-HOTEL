@@ -4,6 +4,7 @@ import { Fetchdata } from '../utils/fetchdata';
 import stateadmin from '../store/stateadmin';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import { setCookie } from "react-use-cookie"
 import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const navi = useNavigate()
@@ -18,6 +19,11 @@ const Login = () => {
         }
         const fetchlogin = async () => {
             const result = await Fetchdata(data, "adminlogin")
+            if (result.err) {
+                alert(result.err)
+                return
+            }
+            setCookie('tokenadmin', result.token)
             const value = jwt_decode(result.token)
             let dataadmin = {
                 email: value.email,

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Fetchdataget, Fetchdata } from '../../utils/fetchdata';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
+import { Navbar } from '../UI/Navbar';
 const EditHotel = () => {
     const admintoken = getCookie("tokenadmin")
     const idhotel = useParams("idhotel")
@@ -54,6 +55,7 @@ const EditHotel = () => {
                 <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
                     {/* Main Content */}
                     <div id="content">
+                        <Navbar />
                         {/* Topbar */}
                         <div className="container-fluid">
                             <h2 style={{ marginBottom: "2rem" }}>Add New Product</h2>

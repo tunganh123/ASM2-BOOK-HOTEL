@@ -1,4 +1,4 @@
-export const url_fetch = "http://localhost:5000";
+export const url_fetch = "https://asm-2-book-hotel.vercel.app";
 export const Fetchdata = async (value, path, tokennn) => {
   try {
     const a = await fetch(`${url_fetch}/${path}`, {

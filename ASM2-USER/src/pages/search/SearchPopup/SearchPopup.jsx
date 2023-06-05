@@ -67,15 +67,16 @@ export default function SearchPopup() {
     }, [])
     const searchhandler = () => {
         const adul = statequeryparam.adult
+        console.log(adul)
         const chil = statequeryparam.children
         const ro = statequeryparam.room
         let datafetch = {
             location: statequeryparam.location,
             time: statetime,
             count: {
-                adult: adul.length > 0 ? Number(adul) : "",
-                children: chil.length > 0 ? Number(chil) : "",
-                room: ro.length > 0 ? Number(ro) : "",
+                adult: adul ? Number(adul) : "",
+                children: chil ? Number(chil) : "",
+                room: ro ? Number(ro) : "",
             }
         }
         const data = async () => {

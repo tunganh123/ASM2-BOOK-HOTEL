@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import RoomItem from './RoomItem';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
+import { Navbar } from '../UI/Navbar';
 const Roomlist = () => {
     const admintoken = getCookie("tokenadmin")
     const navi = useNavigate()
@@ -44,6 +45,7 @@ const Roomlist = () => {
                 <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
                     {/* Main Content */}
                     <div id="content">
+                        <Navbar />
                         {/* Topbar */}
                         <div className="container-fluid">
                             <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>

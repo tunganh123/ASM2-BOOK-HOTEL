@@ -97,7 +97,6 @@ exports.gethotel = (req, res) => {
 exports.searchhotel = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const roomarr = await Room.find();
     const adult = data.count.adult || 0;
     const children = data.count.children || 0;

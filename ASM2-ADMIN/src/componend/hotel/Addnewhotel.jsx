@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Fetchdata } from '../../utils/fetchdata';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
+import { Navbar } from '../UI/Navbar';
 const Addnewhotel = () => {
     const admintoken = getCookie("tokenadmin")
     const navi = useNavigate()
@@ -62,6 +63,7 @@ const Addnewhotel = () => {
                 <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
                     {/* Main Content */}
                     <div id="content">
+                        <Navbar />
                         {/* Topbar */}
                         <div className="container-fluid">
                             <h2 style={{ marginBottom: "2rem" }}>Add New Product</h2>

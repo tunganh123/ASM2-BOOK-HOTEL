@@ -5,29 +5,32 @@ const Room = require("../Models/Room");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 exports.adminlogin = async (req, res) => {
-  const datauser = req.body;
-  const resultadmin = await User.findOne({
-    email: datauser.email,
-    isAdmin: true,
-  });
-  if (resultadmin) {
-    const bolen = bcrypt.compare(datauser.password, resultadmin.password);
-    if (bolen) {
-      const token = jwt.sign(
-        {
-          email: resultadmin.email,
-        },
-        "privateadmin"
-      );
-      // res.cookie("tokenadmin", token, {
-      //   httpOnly: false,
-      //   secure: false,
-      //   samesite: "strict",
-      // });
-      res.status(200).json({ token: token });
-    }
+  try {
+    const datauser = req.body;
+    const resultadmin = await User.findOne({
+      email: datauser.email,
+      isAdmin: true,
+    });
+    if (resultadmin) {
+      const bolen = bcrypt.compare(datauser.password, resultadmin.password);
+      if (bolen) {
+        const token = jwt.sign(
+          {
+            email: resultadmin.email,
+          },
+          "privateadmin"
+        );
+        // res.cookie("tokenadmin", token, {
+        //   httpOnly: false,
+        //   secure: false,
+        //   samesite: "strict",
+        // });
+        res.status(200).json({ token: token });
+      } else res.json({ err: "Thông tin đăng nhập sai" });
+    } else res.json({ err: "Thông tin đăng nhập sai" });
+  } catch (error) {
+    res.json({ err: "Thông tin đăng nhập sai" });
   }
-  res.json();
 };
 exports.adminlogout = async (req, res) => {
   res.clearCookie("tokenadmin");
@@ -173,28 +176,33 @@ exports.deleteroom = async (req, res) => {
     const arrhotel = await Hotel.find();
     const transaction = await Transaction.find().populate("hotel");
     const roomarritem = roomitem.roomNumbers;
-    //  khách sạn có phòng vừa click
+    // danh sach  khách sạn có phòng vừa click
     const hotelfilter = arrhotel.filter((item) => {
       return item.rooms.includes(String(roomitem._id));
     });
     let check = false;
+    // Lặp danh sách các giao dịch
     for (let i = 0; i < transaction.length; i++) {
-      for (let index = 0; index < transaction[i].room.length; index++) {
-        if (roomarritem.includes(transaction[i].room[index])) {
-          if (transaction[i].hotel.rooms.includes(id)) {
-            check = true;
-            res.status(200).json({ err: "Hotel đang có giao dịch" });
-            break;
-          }
+      // Danh sách room của từng giao dịch
+      for (let index = 0; index < transaction[i].room.room.length; index++) {
+        // Nếu danh sách room vừa click có chứa trong 1 giao dịch
+        if (roomarritem.includes(transaction[i].room.room[index])) {
+          check = true;
+          res.status(200).json({ err: "Hotel đang có giao dịch" });
+          break;
         }
       }
     }
     if (!check) {
+      // Xoá phòng
       let bt = await Room.findByIdAndRemove(id);
       if (hotelfilter.length > 0) {
-        await Hotel.findByIdAndUpdate(hotelfilter[0]._id, {
-          $pull: { rooms: id }, //deleting room from hotel
-        });
+        // Update lại danh sách room của các khách sạn
+        for (let index = 0; index < hotelfilter.length; index++) {
+          await Hotel.findByIdAndUpdate(hotelfilter[index]._id, {
+            $pull: { rooms: id }, //deleting room from hotel
+          });
+        }
       }
       if (!bt) {
         throw new Error("err delete");

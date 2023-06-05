@@ -1,14 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Fetchdataget } from '../../utils/fetchdata';
 const Sidebar = () => {
-    // logout
-    const clicklogout = () => {
-        const logout = async () => {
-            const a = await Fetchdataget("adminlogout")
-        }
-        logout()
-    }
     return (
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             {/* Sidebar - Brand */}
@@ -85,8 +77,8 @@ const Sidebar = () => {
             </div>
             {/* Nav Item - Pages Collapse Menu */}
             <li className="nav-item">
-                <Link className="nav-link" onClick={clicklogout} to={"/"} >
-                    <span>Logout</span>
+                <Link className="nav-link" to={"/"} >
+                    <span>Login</span>
                 </Link>
             </li>
 
