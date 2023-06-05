@@ -88,7 +88,7 @@ exports.editdetailhotel = async (req, res) => {
     if (!updatehotel) {
       throw new Error("err update");
     }
-    // res.status(200).json();
+    res.status(200).json({});
   } catch (error) {
     console.log(error);
   }
