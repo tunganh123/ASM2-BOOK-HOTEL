@@ -11,7 +11,7 @@ const cors = require("cors");
 const corsoption = {
   origin: [
     "https://asm-2-book-hotel-a7jb.vercel.app",
-    "https://asm-2-book-hotel-khlf.vercel.app/",
+    "https://asm-2-book-hotel-khlf.vercel.app",
   ],
   credentials: true,
 };
