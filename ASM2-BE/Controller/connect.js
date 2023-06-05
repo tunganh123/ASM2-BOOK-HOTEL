@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
     const value = req.body;
     const passok = await bcryp.hash(value.password, 12);
     const userlist = await User.find();
-    const check = userlist.findIndex((item) => item.username == value.username);
+    const check = userlist.findIndex((item) => item.email == value.email);
     if (check < 0) {
       const user = new User({
         username: value.username,
@@ -97,6 +97,7 @@ exports.gethotel = (req, res) => {
 exports.searchhotel = async (req, res) => {
   try {
     const data = req.body;
+    console.log(data);
     const roomarr = await Room.find();
     const adult = data.count.adult || 0;
     const children = data.count.children || 0;
@@ -104,10 +105,12 @@ exports.searchhotel = async (req, res) => {
     let arrhotel = await Hotel.find();
     // search locatiom
     if (data.location) {
+      console.log("location");
       arrhotel = arrhotel.filter((item) => item.city.includes(data.location));
     }
     // search adult children
     if (data.count.adult || data.count.children) {
+      console.log("adult");
       const totalpeople = adult + children;
       arrhotel = arrhotel.filter((item) => {
         let total = 0;
@@ -124,6 +127,7 @@ exports.searchhotel = async (req, res) => {
     }
     // seach roomcount
     if (roomcount) {
+      console.log("room");
       arrhotel = arrhotel.filter((item) => {
         let totalroomcount = 0;
         for (let index = 0; index < item.rooms.length; index++) {
@@ -139,6 +143,7 @@ exports.searchhotel = async (req, res) => {
     }
     //search range date
     if (data.time) {
+      console.log("time");
       //Tạo mảng time trong khoảng thời gian search
       const start = new Date(data.time.startDate);
       const end = new Date(data.time.endDate);

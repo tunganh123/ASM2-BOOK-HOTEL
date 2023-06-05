@@ -7,6 +7,8 @@ import { Fetchdata as fetchdata } from "../../../utils/fetchdata";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import statehotel from "../../../store/statehotel";
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from "react";
 let countarr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const Header = () => {
     const navi = useNavigate()
@@ -58,22 +60,24 @@ const Header = () => {
             location: reflocation.current.value,
             time: statetime,
             count: {
-                adult: Number(adul),
-                children: Number(chil),
-                room: Number(ro),
+                adult: adul ? Number(adul) : "",
+                children: chil ? Number(chil) : "",
+                room: ro ? Number(ro) : "",
             }
         }
         const data = async () => {
             try {
                 const a = await fetchdata(datafetch, "searchhotel")
                 dispatch(action.getarrsearch(a))
-                navi("/search")
+                dispatch(action.settimerange(statetime))
+                navi(`/search?location=${datafetch.location}&timestart=${datafetch.time?.startDate ? datafetch.time?.startDate : ""}&timeend=${datafetch.time?.endDate ? datafetch.time?.endDate : ""}&adult=${datafetch.count?.adult}&children=${datafetch.count?.children}&room=${datafetch.count?.room}`)
             } catch (error) {
                 console.log(error)
             }
         }
         data()
     }
+
     return (
         <>
             <div className="divheader">
@@ -85,9 +89,6 @@ const Header = () => {
                     </div>
                     <div className="search">
                         <div>
-                            {/* 3 thẻ input nằm trong thẻ div */}
-                            {/* Thêm fontawesome vào placeholder với https://fontawesome.com/v4/cheatsheet/ 
-                            thêm  font-family: FontAwesome, "Open Sans", Verdana, sans-serif;*/}
                             <input ref={reflocation} type="text" placeholder="&#xf236;   Where are you going?" />
                             <input ref={reftime} type="text" onClick={clickHandle} placeholder="&#xf073;   06/24/2022 to 06/24/2022" value={vl} />
                             <input onClick={() => setcheckcount((prev) => !prev)} type="text" placeholder="&#xf182;   1 adult &#8226; 0 children &#8226; 1 room" value={valuecount} />

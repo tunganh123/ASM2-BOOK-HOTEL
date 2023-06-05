@@ -15,7 +15,10 @@ const cookiee = getCookie("token");
 let ckdecode;
 if (cookiee) {
   ckdecode = jwt_decode(cookiee);
-  init = ckdecode;
+  init = {
+    ...ckdecode,
+    token: cookiee,
+  };
 }
 const user = createSlice({
   name: "user",
@@ -30,7 +33,14 @@ const user = createSlice({
       state.username = action.payload.username;
     },
     logoutuser(state, action) {
-      return (state = init);
+      return {
+        id: null,
+        username: "",
+        token: null,
+        email: "",
+        fullname: "",
+        phone: "",
+      };
     },
   },
 });

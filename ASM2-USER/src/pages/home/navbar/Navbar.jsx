@@ -40,26 +40,8 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const userstate = useSelector((state) => state.user)
     const navi = useNavigate()
-    // const cookiee = getCookie("token") || ""
-    // let ckdecode = "";
-    // if (cookiee) {
-    //     ckdecode = jwt_decode(cookiee)
-    // }
-    // // update store khi vao lai web
-    // if (userstate.email.length == 0) {
-    //     if (ckdecode.email) {
-    //         dispatch(action.updateuser({
-    //             ...ckdecode,
-    //             token: cookiee
-    //         }))
-    //     }
-    // }
+
     const logouthandler = async () => {
-        // let ok = await fetch(`${process.env.REACT_APP_URL}/logout`, {
-        //     method: "GET",
-        //     credentials: "include", // tao cookie phia client
-        //     withCredentials: true, // gui cookie len server
-        // })
         removeCookie("token")
         dispatch(action.logoutuser())
     }

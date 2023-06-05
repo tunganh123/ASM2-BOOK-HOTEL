@@ -8,7 +8,6 @@ const Search = () => {
   return (
     <>
       <Navbar />
-      <Header />
       <div className="divpagesearch">
         <div className="pagesearch">
           <SearchPopup />

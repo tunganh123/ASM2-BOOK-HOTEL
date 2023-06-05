@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const BookingNow = () => {
     const detailhotel = useSelector((state) => state.statehotel).detail
     const usercheck = useSelector((state) => state.user)
+    console.log(usercheck)
     const navi = useNavigate()
     const [staterooms, setstaterooms] = useState([])
     // time range
@@ -130,7 +131,6 @@ const BookingNow = () => {
         // validate login
         if (!usercheck.token) {
             alert("Vui lòng đăng nhập để đặt phòng")
-            navi("/login")
             return
         }
         // validate form
