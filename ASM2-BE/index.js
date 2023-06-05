@@ -9,7 +9,10 @@ const bodyparser = require("body-parser");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const corsoption = {
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: [
+    "https://asm-2-book-hotel-a7jb.vercel.app",
+    "https://asm-2-book-hotel-khlf.vercel.app/",
+  ],
   credentials: true,
 };
 //set port
