@@ -131,6 +131,7 @@ exports.addnewhotel = async (req, res) => {
     if (!result) {
       throw new Error("Err save");
     }
+    res.json({ a: "b" });
   } catch (error) {
     console.log(error);
   }

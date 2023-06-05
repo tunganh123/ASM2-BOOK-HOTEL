@@ -12,6 +12,8 @@ const corsoption = {
   origin: [
     "https://asm-2-book-hotel-a7jb.vercel.app",
     "https://asm-2-book-hotel-khlf.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:3001",
   ],
   credentials: true,
 };
