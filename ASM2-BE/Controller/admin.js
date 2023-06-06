@@ -85,9 +85,6 @@ exports.editdetailhotel = async (req, res) => {
       },
       { new: true }
     );
-    if (!updatehotel) {
-      throw new Error("err update");
-    }
     res.status(200).json({});
   } catch (error) {
     console.log(error);
@@ -123,7 +120,7 @@ exports.addnewhotel = async (req, res) => {
       desc: data.des,
       cheapestPrice: data.price,
       title: data.title,
-      rating: 10,
+      rating: 5,
       featured: data.featured,
       rooms: data.rooms.split(","),
     });
@@ -161,9 +158,6 @@ exports.editdetailroom = async (req, res) => {
       },
       { new: true }
     );
-    if (!updateroom) {
-      throw new Error("err update");
-    }
     res.status(200).json({});
   } catch (error) {
     console.log(error);
