@@ -10,9 +10,8 @@ const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const corsoption = {
   origin: [
-    "https://asm-2-book-hotel-a7jb.vercel.app",
-    "https://asm-2-book-hotel-khlf.vercel.app",
-    "https://bookinghotel-user.onrender.com/",
+    "https://book-hotel-user.vercel.app",
+    "https://asm-2-book-hotel-khlf.vercel.app",    
     "http://localhost:3000",
     "http://localhost:3001",
   ],
