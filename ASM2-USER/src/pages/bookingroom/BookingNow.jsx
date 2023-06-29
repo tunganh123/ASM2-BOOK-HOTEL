@@ -11,11 +11,14 @@ import { PayPalButton } from "react-paypal-button-v2";
 const BookingNow = () => {
     const detailhotel = useSelector((state) => state.statehotel).detail
     const usercheck = useSelector((state) => state.user)
-    console.log(usercheck)
     const navi = useNavigate()
     const [staterooms, setstaterooms] = useState([])
     // time range
-    const [statetime, setstatetime] = useState({})
+    const [statetime, setstatetime] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection'
+    })
     // form
     const [stateform, setstateform] = useState()
     // checkbox
@@ -153,11 +156,6 @@ const BookingNow = () => {
         // validate payment
         if (!statepayment) {
             alert("Vui long chọn phương thức thanh toán")
-            return
-        }
-        // validate payment
-        if (!timerange.dataStart || !timerange.dataEnd) {
-            alert("Vui long chọn ngày đặt")
             return
         }
         // it give timestamp which is easier to compare

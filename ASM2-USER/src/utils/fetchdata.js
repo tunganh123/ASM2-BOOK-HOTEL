@@ -14,7 +14,7 @@ export const Fetchdata = async (value, path, tokennn) => {
     if (a.status != 200) {
       throw new Error("Loi ket noi");
     }
-    const b = a.json();
+    const b = await a.json();
     return b;
   } catch (error) {
     console.log(error);
