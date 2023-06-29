@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Sidebar from '../UI/Sidebar';
 import { Fetchdataget, Fetchdata } from '../../utils/fetchdata';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,10 @@ import RoomItem from './RoomItem';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
 import { Navbar } from '../UI/Navbar';
+import { Btndownload } from '../UI/Btndownload';
+
 const Roomlist = () => {
+    const tableref = useRef()
     const admintoken = getCookie("tokenadmin")
     const navi = useNavigate()
     const [stateroomlist, setstateroomlist] = useState([])
@@ -53,7 +56,7 @@ const Roomlist = () => {
                                 <button onClick={() => navi("/addnewroom")} style={{ fontWeight: "700", padding: "1rem", height: "auto", color: " #00973f", border: "1px solid  #00973f" }}> Add new</button>
                             </div>
                             <div>
-                                <table className="table table-striped table-bordered" >
+                                <table ref={tableref} className="table table-striped table-bordered" >
                                     <thead style={{ backgroundColor: "rgb(91, 177, 235)", color: "white" }}>
                                         <tr>
                                             <th scope="col">#</th>
@@ -73,6 +76,7 @@ const Roomlist = () => {
                                 </table>
 
                             </div>
+                            <Btndownload filename="Rooms List" reftable={tableref.current} />
                         </div>
                         {/* /.container-fluid */}
                     </div>

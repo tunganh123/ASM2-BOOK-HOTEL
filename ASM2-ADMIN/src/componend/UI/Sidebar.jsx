@@ -26,12 +26,6 @@ const Sidebar = () => {
                 LISTS
             </div>
             {/* Nav Item - Pages Collapse Menu */}
-            <li className="nav-item">
-                <Link>
-
-                    <span>Users</span>
-                </Link>
-            </li>
             {/* Nav Item - Utilities Collapse Menu */}
             <li className="nav-item">
                 <Link className="nav-link collapsed" to={"/hotellist"}>

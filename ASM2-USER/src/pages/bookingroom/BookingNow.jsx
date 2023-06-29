@@ -7,6 +7,7 @@ import Navbar from "../home/navbar/Navbar"
 import { useSelector } from 'react-redux';
 import SeclectRoom from './SelectRoom';
 import { useNavigate } from 'react-router-dom';
+import { PayPalButton } from "react-paypal-button-v2";
 const BookingNow = () => {
     const detailhotel = useSelector((state) => state.statehotel).detail
     const usercheck = useSelector((state) => state.user)
@@ -20,7 +21,8 @@ const BookingNow = () => {
     // checkbox
     const [statecheckbox, setstatecheckbox] = useState([])
     // payment
-    const [statepayment, setstatepayment] = useState("")
+    const [statepayment, setstatepayment] = useState({ type: "", payment: false })
+
     useEffect(() => {
         const fetchdatanow = async () => {
             try {
@@ -117,7 +119,12 @@ const BookingNow = () => {
         }
     }
     const changepayment = (e) => {
-        setstatepayment(e.target.value)
+        setstatepayment((prev) => {
+            return {
+                ...prev,
+                type: e.target.value
+            }
+        })
     }
     const reserve = () => {
         let arrcheckbox = [];
@@ -180,6 +187,16 @@ const BookingNow = () => {
         fetchbk()
         navi("/transaction")
     }
+    const successpaymenthandler = (details, data) => {
+        // console.log("details", details)
+        // console.log("data", data)
+        setstatepayment((prev) => {
+            return {
+                ...prev,
+                payment: true
+            }
+        })
+    }
     return (
         <>
             <Navbar />
@@ -198,15 +215,27 @@ const BookingNow = () => {
                     }
                 </div>
                 <div style={{ marginBottom: "2rem" }}>
-                    <h2>Total Bill: {totalok}</h2>
+                    <h2>Total Bill: {totalok} $</h2>
                     <div>
-                        <select onChange={changepayment} name="" id="" class="form-select" style={{ width: "auto", display: "inline-block" }}>
+                        <select onChange={changepayment} name="" id="" class="form-select" style={{ width: "20rem", display: "inline-block" }}>
                             <option value="">Select Payment Method</option>
-                            <option value="Credit Cart">Credit Cart</option>
-                            <option value="Cart">Cart</option>
+                            <option value="Payment with paypal">Payment with paypal</option>
+                            <option value="Payment upon check-in">Payment upon check-in</option>
                         </select>
                         <button onClick={reserve} type="button" class="btn btn-primary" style={{ marginLeft: "2rem" }}> Reserve Now</button>
+                        {
+                            statepayment.type == "Payment with paypal" &&
+                            <div style={{ width: "20rem", marginTop: "1rem" }}>
+                                <PayPalButton
+                                    amount={totalok}
+                                    onSuccess={successpaymenthandler}
+                                    onError={() => alert("err")}
+                                />
+                            </div>
+                        }
+
                     </div>
+
                 </div>
             </div>
 

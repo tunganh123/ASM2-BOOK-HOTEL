@@ -15,7 +15,9 @@ exports.transactionpost = async (req, res) => {
       dataStart: data.timerange.dataStart,
       dataEnd: data.timerange.dataEnd,
       price: data.price,
-      payment: data.payment,
+      payment: data.payment.payment
+        ? `${data.payment.type} (Đã thanh toán)`
+        : `${data.payment.type} (Chưa thanh toán)`,
       status: "Booked",
     });
     itemtransaction.save();

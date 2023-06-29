@@ -39,6 +39,7 @@ const Transaction = () => {
                         <tbody>
                             {
                                 statedata.map((item, i) => {
+
                                     // convert date
                                     let timestart = new Date(item.dataStart);
                                     let timeend = new Date(item.dataEnd);
@@ -50,7 +51,7 @@ const Transaction = () => {
                                         <td>{item.room.room.join(",")}</td>
                                         <td>{`${a} - ${b}`}</td>
                                         <td>{item.price}</td>
-                                        <td>{item.payment}</td>
+                                        <td style={{ color: item.payment.includes("Đã thanh toán") ? "rgb(57, 202, 65)" : "" }}>{item.payment}</td>
                                         <td>{item.status}</td>
                                     </tr>
                                 }

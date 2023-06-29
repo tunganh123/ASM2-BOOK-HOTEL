@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Sidebar from './UI/Sidebar';
 import { Fetchdataget } from '../utils/fetchdata';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
 import { Navbar } from './UI/Navbar';
+import { Btndownload } from './UI/Btndownload';
 const Alltransaction = () => {
+    const tableref = useRef()
     const admintoken = getCookie("tokenadmin")
     const [statealltransaction, setalltransaction] = useState([])
     useEffect(() => {
@@ -36,7 +38,7 @@ const Alltransaction = () => {
 
                             </div>
                             <div>
-                                <table className="table table-striped table-bordered" >
+                                <table ref={tableref} className="table table-striped table-bordered" >
                                     <thead style={{ backgroundColor: "rgb(91, 177, 235)", color: "white" }}>
                                         <tr>
                                             <th scope="col">#</th>
@@ -71,6 +73,7 @@ const Alltransaction = () => {
                                 </table>
 
                             </div>
+                            <Btndownload filename="All Transaction" reftable={tableref.current} />
                         </div>
                         {/* /.container-fluid */}
                     </div>

@@ -112,7 +112,9 @@ exports.searchhotel = async (req, res) => {
       console.log("adult");
       const totalpeople = adult + children;
       arrhotel = arrhotel.filter((item) => {
+        // total = tổng max số người có thể chứa của ksan
         let total = 0;
+        // duyệt ds room của ksan
         for (let index = 0; index < item.rooms.length; index++) {
           let roomitem = roomarr.find((it) => it._id == item.rooms[index]);
           if (roomitem) {
@@ -128,6 +130,7 @@ exports.searchhotel = async (req, res) => {
     if (roomcount) {
       console.log("room");
       arrhotel = arrhotel.filter((item) => {
+        // Tổng số phòng của ksan
         let totalroomcount = 0;
         for (let index = 0; index < item.rooms.length; index++) {
           let roomitem = roomarr.find((it) => it._id == item.rooms[index]);
@@ -177,12 +180,14 @@ exports.searchhotel = async (req, res) => {
               if (roomtransaction[i].room.room.includes(String(it))) {
                 // Chỉ trả về phòng với trường hợp khoảng thời gian chọn k chứa thời gian trong giao dịch
                 let check = false;
+                // Duyệt danh sách các ngày của phòng này
                 for (
                   let index = 0;
                   index < roomtransaction[i].room.time.length;
                   index++
                 ) {
                   if (
+                    //Nếu mảng thời gian đang search có chứa 1 ngày (đã có giao dịch)=> break
                     checkdates.includes(roomtransaction[i].room.time[index])
                   ) {
                     check = true;

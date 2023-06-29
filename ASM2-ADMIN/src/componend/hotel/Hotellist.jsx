@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '../UI/Sidebar';
 import { Fetchdataget, Fetchdata } from '../../utils/fetchdata';
 import HotelItem from './HotelItem';
@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCookie } from 'react-use-cookie';
 import { Navbar } from '../UI/Navbar';
+import { useDownloadExcel } from 'react-export-table-to-excel';
+import { Btndownload } from '../UI/Btndownload';
 const Hotellist = () => {
+    const tableRef = useRef(null);
     const admintoken = getCookie("tokenadmin")
     const navi = useNavigate()
     const [statehotellist, setstatehotellist] = useState([])
@@ -54,7 +57,7 @@ const Hotellist = () => {
                                 <button onClick={() => navi("/addnewhotel")} style={{ fontWeight: "700", padding: "1rem", height: "auto", color: " #00973f", border: "1px solid  #00973f" }}> Add new</button>
                             </div>
                             <div>
-                                <table className="table table-striped table-bordered" >
+                                <table ref={tableRef} className="table table-striped table-bordered" >
                                     <thead style={{ backgroundColor: "rgb(91, 177, 235)", color: "white" }}>
                                         <tr>
                                             <th scope="col">#</th>
@@ -72,8 +75,8 @@ const Hotellist = () => {
                                         }
                                     </tbody>
                                 </table>
-
                             </div>
+                            <Btndownload filename="Hotels List" reftable={tableRef.current} />
                         </div>
                         {/* /.container-fluid */}
                     </div>
