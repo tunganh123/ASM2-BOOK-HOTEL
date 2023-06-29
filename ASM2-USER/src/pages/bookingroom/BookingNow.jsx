@@ -14,11 +14,7 @@ const BookingNow = () => {
     const navi = useNavigate()
     const [staterooms, setstaterooms] = useState([])
     // time range
-    const [statetime, setstatetime] = useState({
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection'
-    })
+    const [statetime, setstatetime] = useState({})
     // form
     const [stateform, setstateform] = useState()
     // checkbox
@@ -154,8 +150,8 @@ const BookingNow = () => {
             return
         }
         // validate payment
-        if (!statepayment) {
-            alert("Vui long chọn phương thức thanh toán")
+        if (!timerange.dataStart || !timerange.dataEnd) {
+            alert("Vui long chọn ngày đặt")
             return
         }
         // it give timestamp which is easier to compare
