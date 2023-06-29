@@ -184,6 +184,7 @@ const BookingNow = () => {
     const successpaymenthandler = (details, data) => {
         // console.log("details", details)
         // console.log("data", data)
+        alert("Thanh toan thành công")
         setstatepayment((prev) => {
             return {
                 ...prev,
