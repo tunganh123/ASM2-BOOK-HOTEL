@@ -11,7 +11,6 @@ import EditHotel from "./componend/hotel/EditHotel";
 import EditRoom from "./componend/room/EditRoom";
 import { AppLayOut } from "./layout/AppLayOut";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +24,6 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<AppLayOut />}>
@@ -65,5 +63,5 @@ function App() {
     </>
   );
 }
-
+//
 export default App;
