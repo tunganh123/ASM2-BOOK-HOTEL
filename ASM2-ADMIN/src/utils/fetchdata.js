@@ -1,7 +1,6 @@
-export const url_fetch = "https://asm-2-book-hotel.vercel.app";
 export const Fetchdata = async (value, path, tokennn) => {
   try {
-    const a = await fetch(`${url_fetch}/${path}`, {
+    const a = await fetch(`${process.env.REACT_APP_URL_FETCH}/${path}`, {
       method: "POST",
       body: JSON.stringify(value),
       credentials: "include",
@@ -22,7 +21,7 @@ export const Fetchdata = async (value, path, tokennn) => {
 };
 export const Fetchdataget = async (path, tokennn) => {
   try {
-    const a = await fetch(`${url_fetch}/${path}`, {
+    const a = await fetch(`${process.env.REACT_APP_URL_FETCH}/${path}`, {
       credentials: "include", // tao cookie phia client
       withCredentials: true, // gui cookie len server
       headers: {

@@ -1,36 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import CityItem from './CityItem';
 import "./Contentcity.css"
-import { useSelector } from 'react-redux';
-import { getCookie } from "react-use-cookie"
-import { Fetchdataget as fetchdataget } from '../../../utils/fetchdata';
+import { GetCityService } from '../../../services/services';
+import SpinnerMini from '../../../UI/SpinnerMini';
 export default function Contentcity() {
     const [statedatacity, setstatedatacity] = useState([])
-    const token = getCookie("token")
+    const { isError, isLoading, data } = GetCityService()
     useEffect(() => {
-        const fetchzz = async () => {
-            try {
-                const val = await fetchdataget("getcity", token)
-                let c = val.map((item, i) => {
-                    item.image = `./Cityimage/${i}.jpg`
-                    return item
-                })
-                setstatedatacity(c)
-            } catch (error) {
-                console.log(error)
-            }
+        if (data) {
+            let c = data.map((item, i) => {
+                item.image = `./Cityimage/${i}.jpg`
+                return item
+            })
+            setstatedatacity(c)
         }
-        fetchzz()
-    }, [])
+    }, [data])
     return (
         <>
-            <div className='divcontent'>
-                <div className='contentcity'>
-                    {/* //Duyệt mảng datacity, trả về danh sách componend CityItem, truyền các giá trị sang CityItem */}
-                    {statedatacity.map((data, i) => <CityItem key={i} name={data.name} subText={data.subText} image={data.image} />)
-                    }
+            {
+                isLoading && <SpinnerMini />
+            }
+            {
+                isError && !isLoading && <div>Some thing wrong!!!</div>
+            }
+            {
+                statedatacity &&
+                <div className='divcontent'>
+                    <div className='contentcity'>
+                        {/* //Duyệt mảng datacity, trả về danh sách componend CityItem, truyền các giá trị sang CityItem */}
+                        {statedatacity.map((data, i) => <CityItem key={i} name={data.name} subText={data.subText} image={data.image} />)
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+
 
 
         </>

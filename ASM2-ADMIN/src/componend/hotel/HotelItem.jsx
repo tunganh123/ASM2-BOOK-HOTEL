@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../../UI/Button';
 const HotelItem = ({ item, i, clickdelete, }) => {
     const navi = useNavigate()
     const clickhandler = () => {
@@ -11,14 +12,14 @@ const HotelItem = ({ item, i, clickdelete, }) => {
     return (
         <>
             <tr>
-                <th scope="row">{i + 1}</th>
+                <td scope="row">{i + 1}</td>
                 <td>{item._id}</td>
                 <td>{item.name}</td>
                 <td>{item.type}</td>
                 <td>{item.title}</td>
                 <td>{item.city}</td>
-                <td><button onClick={clickhandler} style={{ fontWeight: "600", color: " red", border: "1px solid  red" }}>Delete</button></td>
-                <td><button onClick={clickedit} style={{ fontWeight: "600", color: " blue", border: "1px solid blue" }}>Edit</button></td>
+                <td><Button onClick={clickhandler} sty={{ color: " red", border: "1px solid  red" }}>Delete</Button></td>
+                <td><Button onClick={clickedit} sty={{ color: " blue", border: "1px solid blue" }}>Edit</Button></td>
             </tr>
         </>
     )

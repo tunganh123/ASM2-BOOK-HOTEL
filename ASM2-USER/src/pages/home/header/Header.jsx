@@ -3,17 +3,11 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from "react-date-range";
 import { useState, useRef } from "react";
-import { Fetchdata as fetchdata } from "../../../utils/fetchdata";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import statehotel from "../../../store/statehotel";
-import { useSearchParams } from 'react-router-dom';
-import { useEffect } from "react";
+import { Button } from "../../../UI/Button";
+import { SearchHotelMutate } from "../../../services/services";
+import Spinner from "../../../UI/Spinner";
 let countarr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const Header = () => {
-    const navi = useNavigate()
-    const dispatch = useDispatch()
-    const action = statehotel.actions;
     const reflocation = useRef("")
     const reftime = useRef("")
     const refadult = useRef()
@@ -51,6 +45,7 @@ const Header = () => {
         // Set Check = false. Dóng DataRange
         setCheck(false)
     }
+    const { mutate, isLoading } = SearchHotelMutate()
     // Khi click vào btn search chuyển sang trang /search
     function search() {
         const adul = refadult.current ? refadult.current.value : null
@@ -65,19 +60,8 @@ const Header = () => {
                 room: ro ? Number(ro) : "",
             }
         }
-        const data = async () => {
-            try {
-                const a = await fetchdata(datafetch, "searchhotel")
-                dispatch(action.getarrsearch(a))
-                dispatch(action.settimerange(statetime))
-                navi(`/search?location=${datafetch.location}&timestart=${datafetch.time?.startDate ? datafetch.time?.startDate : ""}&timeend=${datafetch.time?.endDate ? datafetch.time?.endDate : ""}&adult=${datafetch.count?.adult}&children=${datafetch.count?.children}&room=${datafetch.count?.room}`)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        data()
+        mutate(datafetch)
     }
-
     return (
         <>
             <div className="divheader">
@@ -85,15 +69,21 @@ const Header = () => {
                     <div className="content">
                         <h1>A lifetime of discounts? It's Genius</h1>
                         <p>Get rewarded for your travels - unlock instant savings of 10% or more with a free account</p>
-                        <button className="btn">Signin/Register</button>
+                        <Button >Signin/Register</Button>
                     </div>
                     <div className="search">
-                        <div>
-                            <input ref={reflocation} type="text" placeholder="&#xf236;   Where are you going?" />
-                            <input ref={reftime} type="text" onClick={clickHandle} placeholder="&#xf073;   06/24/2022 to 06/24/2022" value={vl} />
-                            <input onClick={() => setcheckcount((prev) => !prev)} type="text" placeholder="&#xf182;   1 adult &#8226; 0 children &#8226; 1 room" value={valuecount} />
-                        </div>
-                        <button className="btn" onClick={search}>Search</button>
+                        {!isLoading &&
+                            <div>
+                                <input ref={reflocation} type="text" placeholder="&#xf236;   Where are you going?" />
+                                <input ref={reftime} type="text" onClick={clickHandle} placeholder="&#xf073;   06/24/2022 to 06/24/2022" value={vl} />
+                                <input onClick={() => setcheckcount((prev) => !prev)} type="text" placeholder="&#xf182;   1 adult &#8226; 0 children &#8226; 1 room" value={valuecount} />
+                            </div>
+                        }
+                        {
+                            isLoading ? <Spinner /> :
+                                <Button sty={{ backgroundColor: "rgb(15, 77, 211)" }} onClick={search}>Search</Button>
+                        }
+
                     </div>
                 </div>
                 {
@@ -117,10 +107,6 @@ const Header = () => {
                                 countarr.map((count) => <option value={count}>{count}</option>)
                             }
                         </select>
-                        {/* <button onClick={() => {
-                            setvaluecount(`adult: ${refadult.current.value} - children: ${refchildren.current.value} - room:  ${refroom.current.value}`)
-                            setcheckcount(false)
-                        }} >Submit</button> */}
 
                     </div>
                 }

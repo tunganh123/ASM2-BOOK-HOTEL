@@ -10,7 +10,7 @@ exports.Middleware = (req, res, next) => {
       req.email = vl.email;
       next();
     } catch (error) {
-      console.log(error);
+      res.json(error);
     }
   }
 };
@@ -20,11 +20,11 @@ exports.Middlewareadmin = (req, res, next) => {
     try {
       const vl = jwt.verify(ok, "privateadmin");
       if (!vl) {
-        throw new Error("Not authenticated");
+        throw new Error();
       }
       next();
     } catch (error) {
-      console.log(error);
+      res.json({ err: "Not authenticated" });
     }
   }
 };

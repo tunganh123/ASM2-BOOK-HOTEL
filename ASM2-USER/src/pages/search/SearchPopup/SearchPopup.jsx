@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { Fetchdata as fetchdata } from '../../../utils/fetchdata';
 import { useDispatch } from 'react-redux';
 import statehotel from '../../../store/statehotel';
+import { Input } from '../../../UI/Input';
+import { SearchPopupMutate } from '../../../services/services';
+import SpinnerMini from '../../../UI/SpinnerMini';
 export default function SearchPopup() {
     const gettimerange = useSelector((state) => state.statehotel).timerange;
     // State check kiểm tra việc đã click vào input date chưa
@@ -65,9 +68,9 @@ export default function SearchPopup() {
             setstatetime(gettimerange)
         }
     }, [])
+    const { mutate, isLoading } = SearchPopupMutate()
     const searchhandler = () => {
         const adul = statequeryparam.adult
-        console.log(adul)
         const chil = statequeryparam.children
         const ro = statequeryparam.room
         let datafetch = {
@@ -79,16 +82,7 @@ export default function SearchPopup() {
                 room: ro ? Number(ro) : "",
             }
         }
-        const data = async () => {
-            try {
-                const a = await fetchdata(datafetch, "searchhotel")
-                dispatch(action.getarrsearch(a))
-
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        data()
+        mutate(datafetch)
     }
     return (
         <>
@@ -96,7 +90,7 @@ export default function SearchPopup() {
                 <h2>Search</h2>
                 <div className='destination'>
                     <p>Destination</p>
-                    <input onChange={(e) =>
+                    <Input onChange={(e) =>
                         setstatequeryparam((prev) => {
                             return {
                                 ...prev,
@@ -106,7 +100,7 @@ export default function SearchPopup() {
                 </div>
                 <div className='datee'>
                     <p>Check-in Date</p>
-                    <input type="text" onClick={clickHandle} value={vl} />
+                    <Input type="text" onClick={clickHandle} value={vl} />
                     {/* Data range hiện ra khi check == true */}
                     <div >
                         {check ? <DateRange
@@ -162,7 +156,8 @@ export default function SearchPopup() {
                             }
                         })} type="text" value={statequeryparam.room ? statequeryparam.room : ""} />
                 </div>
-                <button className='btnsearch' onClick={searchhandler}>Search</button>
+
+                <button className='btnsearch' onClick={searchhandler}>Search {isLoading && <SpinnerMini style={{ width: "1rem", height: "1rem" }} />}</button>
             </div>
 
         </>

@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./SearchList.css"
 import SearchListItem from './SearchListItem';
 import { useSelector } from 'react-redux';
-
-
 export default function SearchLists() {
     const hotel = useSelector((state) => state.statehotel)
-
     const arrfilter = hotel.arrsearch
     return (
         <>

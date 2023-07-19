@@ -8,8 +8,13 @@ import { useSelector } from 'react-redux';
 import SeclectRoom from './SelectRoom';
 import { useNavigate } from 'react-router-dom';
 import { PayPalButton } from "react-paypal-button-v2";
+import { useParams } from 'react-router-dom';
+import { GetRoomService, QueryRoomMutate, TransactionMutate } from '../../services/services';
+import Spinner from '../../UI/Spinner';
+import SpinnerMini from '../../UI/SpinnerMini';
 const BookingNow = () => {
-    const detailhotel = useSelector((state) => state.statehotel).detail
+    const idhotel = useParams().idhotel
+    const [detailhotel, setdetail] = useState()
     const usercheck = useSelector((state) => state.user)
     const navi = useNavigate()
     const [staterooms, setstaterooms] = useState([])
@@ -22,33 +27,31 @@ const BookingNow = () => {
     // payment
     const [statepayment, setstatepayment] = useState({ type: "", payment: false })
 
+    const { isError, isLoading, data } = GetRoomService({ idhotel: idhotel })
     useEffect(() => {
-        const fetchdatanow = async () => {
-            try {
-                const dataroom = await fetchdata(detailhotel, "getroom")
-                setstaterooms(dataroom)
-            } catch (error) {
-                console.log(error)
-            }
+        if (data) {
+            setdetail(data?.hotelitem)
+            setstaterooms(data?.room)
         }
-        fetchdatanow()
-    }, [])
+    }, [data])
+
+
+    const { isLoading: load, data: dataroom, mutate } = QueryRoomMutate()
+    const { mutate: mutatetransaction } = TransactionMutate()
     const gettimefun = (time) => {
-        const fetchdataroom = async () => {
-            let dat = {
-                ...time,
-                detailhotel: detailhotel
-            }
-            try {
-                const dataroom = await fetchdata(dat, "queryroom")
-                setstaterooms(dataroom)
-            } catch (error) {
-                console.log(error)
-            }
+        let dat = {
+            ...time,
+            detailhotel: detailhotel
         }
-        fetchdataroom()
         setstatetime(time)
+        mutate(dat)
     }
+    useEffect(() => {
+        if (dataroom) {
+            setstaterooms(dataroom)
+        }
+    }, [dataroom])
+
     const getform = (val) => {
         setstateform(val)
     }
@@ -66,7 +69,6 @@ const BookingNow = () => {
         totalok = total * dayrange
     } else totalok = total;
     const datacheckbox = (dat, check) => {
-        // console.log(dat)
         if (check) {
             let arrcb = [...statecheckbox]
             let indexsame = arrcb.findIndex((item) => item.room._id == dat.room._id)
@@ -175,15 +177,9 @@ const BookingNow = () => {
             payment: statepayment,
             price: totalok
         }
-        const fetchbk = async () => {
-            const res = await fetchdata(data, "transaction");
-        }
-        fetchbk()
-        navi("/transaction")
+        mutatetransaction(data)
     }
     const successpaymenthandler = (details, data) => {
-        // console.log("details", details)
-        // console.log("data", data)
         alert("Thanh toan thành công")
         setstatepayment((prev) => {
             return {
@@ -194,46 +190,60 @@ const BookingNow = () => {
     }
     return (
         <>
-            <Navbar />
-            <div className='detail'>
-                <BookingRoom />
-            </div>
-            <div className='detail' style={{ display: "grid", gridTemplateColumns: "0.8fr 2fr", gap: "2rem" }}>
-                <BookingTime gettimefun={gettimefun} />
-                <BookingForm getform={getform} />
-            </div>
-            <div className='detail '>
-                <h2>Select Rooms</h2>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
-                    {
-                        staterooms.map((room, i) => <SeclectRoom datacheckbox={datacheckbox} gettimem={statetime} key={i} room={room} detailhotel={detailhotel} />)
-                    }
-                </div>
-                <div style={{ marginBottom: "2rem" }}>
-                    <h2>Total Bill: {totalok} $</h2>
-                    <div>
-                        <select onChange={changepayment} name="" id="" class="form-select" style={{ width: "20rem", display: "inline-block" }}>
-                            <option value="">Select Payment Method</option>
-                            <option value="Payment with paypal">Payment with paypal</option>
-                            <option value="Payment upon check-in">Payment upon check-in</option>
-                        </select>
-                        <button onClick={reserve} type="button" class="btn btn-primary" style={{ marginLeft: "2rem" }}> Reserve Now</button>
+            {
+                (isLoading) && <Spinner />
+            }
+            {
+                isError && !isLoading && <div>Some thing wrong!!!</div>
+            }
+            {
+                !isError && !isLoading &&
+                <>
+                    <Navbar />
+                    <div className='detail'>
                         {
-                            statepayment.type == "Payment with paypal" &&
-                            <div style={{ width: "20rem", marginTop: "1rem" }}>
-                                <PayPalButton
-                                    amount={totalok}
-                                    onSuccess={successpaymenthandler}
-                                    onError={() => alert("err")}
-                                />
-                            </div>
+                            detailhotel &&
+                            <BookingRoom detailhotel={detailhotel} />
                         }
-
+                    </div>
+                    <div className='detail' style={{ display: "grid", gridTemplateColumns: "0.8fr 2fr", gap: "2rem" }}>
+                        <BookingTime gettimefun={gettimefun} />
+                        <BookingForm getform={getform} />
                     </div>
 
-                </div>
-            </div>
+                    <div className='detail '>
+                        <h2>Select Rooms {load && <SpinnerMini style={{ width: "1.5rem", height: "1.5rem", color: "rgb(91, 177, 235)" }} />}</h2>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+                            {
+                                staterooms && staterooms.map((room, i) => <SeclectRoom datacheckbox={datacheckbox} gettimem={statetime} key={i} room={room} detailhotel={detailhotel} />)
+                            }
+                        </div>
+                        <div style={{ marginBottom: "2rem" }}>
+                            <h2>Total Bill: {totalok} $</h2>
+                            <div>
+                                <select onChange={changepayment} name="" id="" class="form-select" style={{ width: "20rem", display: "inline-block" }}>
+                                    <option value="">Select Payment Method</option>
+                                    <option value="Payment with paypal">Payment with paypal</option>
+                                    <option value="Payment upon check-in">Payment upon check-in</option>
+                                </select>
+                                <button onClick={reserve} type="button" class="btn btn-primary" style={{ marginLeft: "2rem" }}> Reserve Now</button>
+                                {
+                                    statepayment.type == "Payment with paypal" &&
+                                    <div style={{ width: "20rem", marginTop: "1rem" }}>
+                                        <PayPalButton
+                                            amount={totalok}
+                                            onSuccess={successpaymenthandler}
+                                            onError={() => alert("err")}
+                                        />
+                                    </div>
+                                }
 
+                            </div>
+
+                        </div>
+                    </div>
+                </>
+            }
         </>
     )
 }

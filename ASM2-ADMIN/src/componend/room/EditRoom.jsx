@@ -1,19 +1,23 @@
-import React, { useRef, useState, useEffect } from 'react';
-import "../../css/sb-admin-2.min.css"
-import "../../css/sb-admin-2.css"
-import Sidebar from '../UI/Sidebar';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Fetchdataget, Fetchdata } from '../../utils/fetchdata';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getCookie } from 'react-use-cookie';
-import { Navbar } from '../UI/Navbar';
+import { ColForm, InputForm, RowForm } from '../../UI/RowForm';
+import { Button } from '../../UI/Button';
+import { EditRoomMutate, GetDetailRoomService } from '../../services/services';
+import SpinnerMini from '../../UI/SpinnerMini';
+import Spinner from '../../UI/Spinner';
 const EditRoom = () => {
     const admintoken = getCookie("tokenadmin")
     const idroom = useParams("idroom")
-    const navi = useNavigate()
     const [statedetail, setstatedetail] = useState({
         title: "", roomNumbers: [], price: "", maxPeople: "", desc: ""
     })
+    const { isError, isLoading, data } = GetDetailRoomService(admintoken, idroom.idroom)
+    const { mutate, isLoading: load } = EditRoomMutate()
+    useEffect(() => {
+        setstatedetail(data)
+    }, [data])
+
     const clickhandler = (e) => {
         e.preventDefault();
         // validate
@@ -22,108 +26,58 @@ const EditRoom = () => {
             alert("Vui long nhap du thong tin")
             return
         }
-        const fetchdetailroom = async () => {
-            const result = await Fetchdata(statedetail, `editdetailroom`, admintoken)
-            setstatedetail(result)
-        }
-        fetchdetailroom()
-        navi("/roomlist")
+        mutate({ token: admintoken, datapost: statedetail })
     }
-    useEffect(() => {
-        if (!admintoken) {
-            return
-        }
-        const fetchdetailhotel = async () => {
-            const result = await Fetchdataget(`getdetailroom/${idroom.idroom}`, admintoken)
-            setstatedetail(result)
-        }
-        fetchdetailhotel()
-    }, [])
+    const changeinput = (e) => {
+        setstatedetail((prev) => {
+            return { ...prev, [e.target.name]: e.target.value }
+        })
+    }
     return (
         <>
-            <div id="wrapper">
-                {/* Sidebar */}
-                <Sidebar />
-                {/* End of Sidebar */}
-                {/* Content Wrapper */}
-                <div style={{ padding: "2rem" }} id="content-wrapper" className="d-flex flex-column">
-                    {/* Main Content */}
-                    <div id="content">
-                        <Navbar />
-                        {/* Topbar */}
-                        <div className="container-fluid">
-                            <h2 style={{ marginBottom: "2rem" }}>Edit Room</h2>
-                            {/* End of Topbar */}
-                            {/* Begin Page Content */}
-                            <form>
-                                {/* 2 column grid layout with text inputs for the first and last names */}
-                                <div className="row mb-4">
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <label className="form-label" htmlFor="form6Example1">Title</label>
-                                            <input type="text" id="form6Example1" className="form-control" onChange={(e) => setstatedetail((prev) => {
-                                                return { ...prev, title: e.target.value }
-                                            })} value={statedetail.title} />
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <label className="form-label" htmlFor="form6Example2">Description</label>
-                                            <input type="text" id="form6Example2" className="form-control" onChange={(e) => setstatedetail((prev) => {
-                                                return { ...prev, desc: e.target.value }
-                                            })} value={statedetail.desc} />
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* 2 column grid layout with text inputs for the first and last names */}
-                                <div className="row mb-4">
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <label className="form-label" htmlFor="form6Example1">Price</label>
-                                            <input type="number" id="form6Example1" className="form-control" onChange={(e) => setstatedetail((prev) => {
-                                                return { ...prev, price: e.target.value }
-                                            })} value={statedetail.price} />
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <label className="form-label" htmlFor="form6Example2">Max people</label>
-                                            <input type="number" id="form6Example2" className="form-control" onChange={(e) => setstatedetail((prev) => {
-                                                return { ...prev, maxPeople: e.target.value }
-                                            })} value={statedetail.maxPeople} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row mb-4" style={{ display: "flex", justifyContent: "center", alignItems: "start" }}>
-                                    <div className="col">
-                                        <label className="form-label" htmlFor="form6Example7">Room</label>
-                                        <textarea className="form-control" id="form6Example7" rows={2} onChange={(e) => setstatedetail((prev) => {
-                                            return { ...prev, roomNumbers: e.target.value.split(",") }
-                                        })} value={statedetail.roomNumbers.join(",")} />
-                                    </div>
-                                    <div className="col" style={{ marginBottom: "0", display: "flex", margin: "auto" }} >
-                                        <button type='submit' onClick={clickhandler} className="btn btn-primary btn-block ">Update</button>
-                                    </div>
-                                </div>
-                                {/* Submit button */}
+            {
+                (isLoading || load) && <Spinner />
+            }
+            {
+                isError && !isLoading && <div>Some thing wrong!!!</div>
+            }
+            {statedetail &&
+                <>
+                    <h2 style={{ marginBottom: "2rem" }}>Add New Product</h2>
+                    <form>
+                        <RowForm>
+                            <ColForm tit="Title">
+                                <InputForm value={statedetail.title} type="text" name="title" onChange={changeinput} />
+                            </ColForm>
+                            <ColForm tit="Description">
+                                <InputForm value={statedetail.desc} type="text" name="desc" onChange={changeinput} />
+                            </ColForm>
+                        </RowForm>
+                        <RowForm>
+                            <ColForm tit="Price">
+                                <InputForm value={statedetail.price} type="number" name="price" onChange={changeinput} />
+                            </ColForm>
+                            <ColForm tit="Max people">
+                                <InputForm value={statedetail.maxPeople} type="text" name="maxPeople" onChange={changeinput} />
+                            </ColForm>
+                        </RowForm>
+                        <RowForm>
+                            <ColForm tit="Room">
+                                <textarea value={statedetail.roomNumbers} className="form-control" rows={2} onChange={(e) => setstatedetail((prev) => {
+                                    return { ...prev, roomNumbers: e.target.value.split(",") }
+                                })} />
+                            </ColForm>
+                            {
+                                isLoading ? <SpinnerMini /> :
+                                    <ColForm>
+                                        <Button onClick={clickhandler} sty={{ marginTop: "1rem" }} className="btn btn-primary btn-block ">Send</Button>
+                                    </ColForm>
+                            }
+                        </RowForm>
+                    </form>
+                </>
+            }
 
-                            </form>
-                        </div>
-                        {/* /.container-fluid */}
-                    </div>
-                    {/* End of Main Content */}
-                    {/* Footer */}
-                    <footer className="sticky-footer bg-white">
-                        <div className="container my-auto">
-                            <div className="copyright text-center my-auto">
-                                <span>Copyright © Your Website 2023</span>
-                            </div>
-                        </div>
-                    </footer>
-                    {/* End of Footer */}
-                </div>
-                {/* End of Content Wrapper */}
-            </div>
         </>
     )
 }

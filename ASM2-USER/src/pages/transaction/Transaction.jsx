@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../home/navbar/Navbar';
-import { Fetchdata as fetchdata } from '../../utils/fetchdata';
 import { useSelector } from 'react-redux';
+import { GetTransactionService } from '../../services/services';
+import Spinner from '../../UI/Spinner';
+import Pagination from '../../UI/Pagination';
+import { useSearchParams } from 'react-router-dom';
+import { getPagination } from '../../utils/helper';
 const Transaction = () => {
+
     const user = useSelector((state) => state.user)
-    const [statedata, setdata] = useState([])
-    const [state, setstate] = useState(true)
+    const [statetransaction, settransaction] = useState()
+    const { isError, isLoading, data } = GetTransactionService({ id: user.id })
     useEffect(() => {
-        const fetchnow = async () => {
-            try {
-                const res = await fetchdata({ id: user.id }, "gettransaction")
-                setstate(false)
-                setdata(res)
-            } catch (error) {
-                console.log(error)
-            }
+        if (data) {
+            settransaction(data)
         }
-        fetchnow()
-    }, [state])
+    }, [data])
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentPage = !searchParams.get("page")
+        ? 1
+        : Number(searchParams.get("page"));
+    const { currentData, PAGE_SIZE, startIndex } = getPagination(currentPage, statetransaction)
     return (
         <>
+            {
+                isLoading && <Spinner />
+            }
+            {
+                isError && !isLoading && <div>Some thing wrong!!!</div>
+            }
             <Navbar />
             <div style={{ margin: "0 30px" }}>
                 <div style={{ margin: "3rem" }}>
@@ -27,7 +36,7 @@ const Transaction = () => {
                     <table className="table table-striped table-bordered" >
                         <thead style={{ backgroundColor: "rgb(91, 177, 235)", color: "white" }}>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">STT</th>
                                 <th scope="col">Hotel</th>
                                 <th scope="col">Room</th>
                                 <th scope="col">Date</th>
@@ -38,7 +47,7 @@ const Transaction = () => {
                         </thead>
                         <tbody>
                             {
-                                statedata.map((item, i) => {
+                                currentData && currentData.map((item, i) => {
 
                                     // convert date
                                     let timestart = new Date(item.dataStart);
@@ -46,7 +55,7 @@ const Transaction = () => {
                                     let a = timestart.toLocaleDateString()
                                     let b = timeend.toLocaleDateString()
                                     return <tr key={i}>
-                                        <th scope="row">{i + 1}</th>
+                                        <th scope="row">{i + 1 + startIndex}</th>
                                         <td>{item.hotel.name}</td>
                                         <td>{item.room.room.join(",")}</td>
                                         <td>{`${a} - ${b}`}</td>
@@ -59,8 +68,9 @@ const Transaction = () => {
                                 )
                             }
                         </tbody>
-                    </table>
 
+                    </table>
+                    <Pagination count={statetransaction?.length} PAGE_SIZE={PAGE_SIZE} />
                 </div>
             </div>
         </>

@@ -20,9 +20,10 @@ exports.transactionpost = async (req, res) => {
         : `${data.payment.type} (Chưa thanh toán)`,
       status: "Booked",
     });
-    itemtransaction.save();
-    res.json();
+    await itemtransaction.save();
+    res.json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -33,6 +34,7 @@ exports.gettransaction = async (req, res) => {
     }).populate("hotel");
     res.status(200).json(transactionuser);
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };

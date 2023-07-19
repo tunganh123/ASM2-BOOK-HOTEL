@@ -1,26 +1,11 @@
 import React from 'react';
 import "./SearchListItem.css"
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import statehotel from '../../../store/statehotel';
-import { Fetchdataget as fetchdataget } from '../../../utils/fetchdata';
-import { useSelector } from 'react-redux';
 export default function SearchListItem({ dat }) {
     const navi = useNavigate()
-    const dispatch = useDispatch()
-    const action = statehotel.actions;
-    const token = useSelector((state) => state.user).token
     const clickHandler = () => {
-        const data = async () => {
-            try {
-                const a = await fetchdataget(`detailhotel/${dat._id}`, token)
-                dispatch(action.getdetail(a))
-                navi("/detail")
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        data()
+        navi(`/detail/${dat._id}`)
+
     }
     return (
         <>

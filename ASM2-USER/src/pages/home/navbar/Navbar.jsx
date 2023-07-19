@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux";
 import { getCookie } from "react-use-cookie"
 import { useCookies } from "react-cookie"
-import jwt_decode from "jwt-decode";
+import { Button } from "../../../UI/Button";
 let dataNavbar = [
     {
         "type": "Stays",
@@ -54,12 +54,12 @@ const Navbar = () => {
                         userstate.email.length > 0 ?
                             <div >
                                 <p style={{ marginBottom: "0" }}>{userstate.email}</p>
-                                <button onClick={() => navi("/transaction")} style={{ margin: "auto 1rem" }} className="">Transactions</button>
-                                <button onClick={logouthandler} className="">Logout</button>
+                                <Button onClick={() => navi("/transaction")} sty={{ margin: "auto 1rem" }} >Transactions</Button>
+                                <Button onClick={logouthandler}>Logout</Button>
                             </div>
                             : <div>
-                                <button onClick={() => navi("/signup")} style={{ margin: "auto 1rem" }} className="">Register</button>
-                                <button onClick={() => navi("/login")} className="">Login</button>
+                                <Button onClick={() => navi("/signup")} >Register</Button>
+                                <Button onClick={() => navi("/login")} >Login</Button>
                             </div>
                     }
                 </div>

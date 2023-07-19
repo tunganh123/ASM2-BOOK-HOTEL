@@ -1,66 +1,65 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom"
 import { Fetchdata as fetchdata } from '../../../utils/fetchdata';
+import { NavHead } from './NavHead';
+import { Input } from '../../../UI/Input';
+import { Button } from '../../../UI/Button';
+import { SignupMutate } from '../../../services/services';
+import SpinnerMini from '../../../UI/SpinnerMini';
 const Signup = () => {
-    const navi = useNavigate()
-    const refemail = useRef()
-    const refpassword = useRef()
-    const refusername = useRef()
-    const reffullname = useRef()
-    const refphone = useRef()
-    const clickSignup = async () => {
+    const [state, setstate] = useState({
+        email: "",
+        password: "",
+        username: "",
+        fullname: "",
+        phone: "",
+    })
+    const { mutate, isLoading } = SignupMutate()
+    const clickSignup = (e) => {
+        e.preventDefault()
         // validate
-        if (refemail.current.value.trim().length == 0) {
+        if (state.email.trim().length == 0) {
             alert("vui long nhap email")
             return
         }
-        if (refpassword.current.value.trim().length == 0) {
+        if (state.password.trim().length == 0) {
             alert("vui long nhap password")
             return
         }
-        if (refusername.current.value.trim().length == 0) {
+        if (state.username.trim().length == 0) {
             alert("vui long nhap username")
             return
         }
-        if (reffullname.current.value.trim().length == 0) {
+        if (state.fullname.trim().length == 0) {
             alert("vui long nhap fullname")
             return
         }
-        if (refphone.current.value.trim().length == 0) {
+        if (state.phone.trim().length == 0) {
             alert("vui long nhap phone")
             return
         }
-        const value = {
-            email: refemail.current.value,
-            password: refpassword.current.value,
-            username: refusername.current.value,
-            fullname: reffullname.current.value,
-            phone: refphone.current.value,
-
-        }
-        const check = await fetchdata(value, "register")
-        if (check.err) {
-            alert(check.err)
-        } else navi("/login")
+        mutate(state)
+    }
+    const changeinput = (e) => {
+        setstate((prev) => {
+            return { ...prev, [e.target.name]: e.target.value }
+        })
     }
     return (
         <>
-            <div className="divNavbar head" style={{ padding: "1rem" }}>
-                <h2 onClick={() => navi("/")}>Booking </h2>
-                <div>
-                    <button onClick={() => navi("/signup")} style={{ margin: "auto 1rem" }}>Sign Up</button>
-                    <button onClick={() => navi("/login")} className="">Login</button>
-                </div>
-            </div>
-            <div style={{ width: "25rem", textAlign: "center", margin: "5rem auto" }}>
+            <NavHead />
+            <form style={{ width: "25rem", textAlign: "center", margin: "5rem auto" }}>
                 <h1 style={{ marginBottom: "1rem" }}>Sign up</h1>
-                <input placeholder='input Username please' ref={refusername} style={{ marginBottom: "1rem" }} type="text" className='form-control' />
-                <input placeholder='input fullname please' ref={reffullname} style={{ marginBottom: "1rem" }} type="text" className='form-control' />
-                <input placeholder='input phoneNumber please' ref={refphone} style={{ marginBottom: "1rem" }} type="number" className='form-control' />
-                <input style={{ marginBottom: "1rem" }} ref={refemail} placeholder='input email please' type="text" className='form-control' />
-                <input style={{ marginBottom: "1rem" }} ref={refpassword} placeholder='input password please' type="password" className='form-control' />
-                <button onClick={clickSignup} style={{ fontWeight: "700", margin: "0", backgroundColor: "rgb(91, 177, 235)", color: "white", width: "100%" }} className='btn'>Create Account</button>
-            </div>
+                <Input placeholder='input Username please' name="username" onChange={changeinput} type="text" />
+                <Input placeholder='input fullname please' name="fullname" onChange={changeinput} type="text" />
+                <Input placeholder='input phoneNumber please' name="phone" onChange={changeinput} type="number" />
+                <Input placeholder='input email please' name="email" onChange={changeinput} type="text" />
+                <Input placeholder='input password please' name="password" onChange={changeinput} type="password" />
+                {
+                    isLoading ? <SpinnerMini /> :
+                        <Button onClick={clickSignup} sty={{ width: "100%" }} >Create Account</Button>
+                }
+            </form>
         </>
     )
 }

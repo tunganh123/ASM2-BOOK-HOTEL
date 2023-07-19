@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-const BookingRoom = () => {
-    const detailhotel = useSelector((state) => state.statehotel).detail
+const BookingRoom = ({ detailhotel }) => {
+
     return (
         <div className="staynow">
             <div className="title">

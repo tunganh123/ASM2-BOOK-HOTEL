@@ -1,5 +1,6 @@
 import React from 'react';
 import "./ContentForm.css"
+import { Button } from '../../../UI/Button';
 export default function ContentForm() {
     return (
         <>
@@ -9,9 +10,8 @@ export default function ContentForm() {
                     <p>Sign up and we'll send the best deals to you</p>
                     <div>
                         <input type="text" placeholder="Your Email" />
-                        <button className="btn" >Subscribe</button>
+                        <Button sty={{ margin: "0", marginLeft: "1rem" }}>Subscribe</Button>
                     </div>
-
                 </div>
             </div>
         </>

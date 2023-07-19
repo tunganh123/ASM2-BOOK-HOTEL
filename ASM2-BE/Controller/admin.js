@@ -12,7 +12,10 @@ exports.adminlogin = async (req, res) => {
       isAdmin: true,
     });
     if (resultadmin) {
-      const bolen = bcrypt.compare(datauser.password, resultadmin.password);
+      const bolen = await bcrypt.compare(
+        datauser.password,
+        resultadmin.password
+      );
       if (bolen) {
         const token = jwt.sign(
           {
@@ -51,7 +54,7 @@ exports.getinfoboard = async (req, res) => {
     };
     res.status(200).json(infoboard);
   } catch (error) {
-    console.log(error);
+    res.json({ err: error.message });
   }
 };
 exports.gettransaction = async (req, res) => {
@@ -73,6 +76,7 @@ exports.getdetailhotel = async (req, res) => {
     }
     res.status(200).json(result);
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -85,8 +89,9 @@ exports.editdetailhotel = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({});
+    res.status(200).json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -104,6 +109,7 @@ exports.deletehotel = async (req, res) => {
       } else throw new Error("Err DELETE");
     }
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -111,18 +117,8 @@ exports.addnewhotel = async (req, res) => {
   try {
     const data = req.body;
     const hotelitem = new Hotel({
-      name: data.name,
-      type: data.type,
-      city: data.city,
-      address: data.address,
-      distance: data.distance,
-      photos: data.img.split(","),
-      desc: data.des,
-      cheapestPrice: data.price,
-      title: data.title,
+      ...data,
       rating: 5,
-      featured: data.featured,
-      rooms: data.rooms.split(","),
     });
     const result = await hotelitem.save();
     if (!result) {
@@ -130,6 +126,7 @@ exports.addnewhotel = async (req, res) => {
     }
     res.json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -146,6 +143,7 @@ exports.getdetailroom = async (req, res) => {
     }
     res.status(200).json(result);
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -158,8 +156,9 @@ exports.editdetailroom = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({});
+    res.status(200).json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -185,8 +184,7 @@ exports.deleteroom = async (req, res) => {
           // => Phải thỏa mãn danh sách phòng của giao dịch này chứa mã id ( chứa phòng này)
           if (transaction[i].hotel.rooms.includes(id)) {
             check = true;
-            res.status(200).json({ err: "Hotel đang có giao dịch" });
-            break;
+            throw new Error("Room đang có giao dịch");
           }
         }
       }
@@ -207,8 +205,11 @@ exports.deleteroom = async (req, res) => {
       } else {
         res.status(200).json({ ok: "Xóa thành công" });
       }
+    } else {
+      res.json({ a: "b" });
     }
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -216,11 +217,10 @@ exports.addnewroom = async (req, res) => {
   try {
     const data = req.body;
     const roomitem = new Room({
-      title: data.title,
+      ...data,
       desc: data.des,
-      price: data.price,
       maxPeople: data.maxpeople,
-      roomNumbers: data.room.split(","),
+      roomNumbers: data.room,
     });
     const result = await roomitem.save();
     const a = await Hotel.findByIdAndUpdate(data.hotel, {
@@ -229,8 +229,9 @@ exports.addnewroom = async (req, res) => {
     if (!result) {
       throw new Error("Err save");
     }
-    res.json({});
+    res.json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };

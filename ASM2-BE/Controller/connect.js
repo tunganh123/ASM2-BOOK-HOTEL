@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
       res.json({ err: "Đã tồn tại user" });
     }
   } catch (error) {
-    res.json({ a: "b" });
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -53,15 +53,16 @@ exports.login = async (req, res) => {
         //   samesite: "strict",
         // });
         res.status(200).json({ token: token });
-      } else res.status(404).send();
-    } else res.status(404).send();
+      } else res.status(404).json({ a: "b" });
+    } else res.status(404).json({ a: "b" });
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
 exports.logout = async (req, res) => {
   res.clearCookie("token");
-  res.json({});
+  res.json(json({ a: "b" }));
 };
 exports.getcity = (req, res) => {
   Hotel.find()
@@ -85,14 +86,14 @@ exports.getcity = (req, res) => {
       ];
       res.status(200).json(response);
     })
-    .catch((err) => console.log(err));
+    .catch((error) => res.json({ err: error.message }));
 };
 exports.gethotel = (req, res) => {
   Hotel.find()
     .then((result) => {
       res.status(200).json(result);
     })
-    .catch((err) => console.log(err));
+    .catch((error) => res.json({ err: error.message }));
 };
 exports.searchhotel = async (req, res) => {
   try {
@@ -104,12 +105,10 @@ exports.searchhotel = async (req, res) => {
     let arrhotel = await Hotel.find();
     // search locatiom
     if (data.location) {
-      console.log("location");
       arrhotel = arrhotel.filter((item) => item.city.includes(data.location));
     }
     // search adult children
     if (data.count.adult || data.count.children) {
-      console.log("adult");
       const totalpeople = adult + children;
       arrhotel = arrhotel.filter((item) => {
         // total = tổng max số người có thể chứa của ksan
@@ -128,7 +127,6 @@ exports.searchhotel = async (req, res) => {
     }
     // seach roomcount
     if (roomcount) {
-      console.log("room");
       arrhotel = arrhotel.filter((item) => {
         // Tổng số phòng của ksan
         let totalroomcount = 0;
@@ -145,7 +143,6 @@ exports.searchhotel = async (req, res) => {
     }
     //search range date
     if (data.time) {
-      console.log("time");
       //Tạo mảng time trong khoảng thời gian search
       const start = new Date(data.time.startDate);
       const end = new Date(data.time.endDate);
@@ -224,7 +221,6 @@ exports.searchhotel = async (req, res) => {
           (total, rom) => (total = total + rom.roomNumbers.length),
           0
         );
-        // console.log(totalroom);
         if (Number(totalroom) > 0) {
           arrok.push(htel);
         }
@@ -233,6 +229,7 @@ exports.searchhotel = async (req, res) => {
     }
     res.status(200).json(arrhotel);
   } catch (error) {
+    res.json({ err: error.message });
     console.log(error);
   }
 };
@@ -242,23 +239,25 @@ exports.detailhotel = (req, res) => {
     .then((resultitem) => {
       res.status(200).json(resultitem);
     })
-    .catch((err) => console.log(err));
+    .catch((error) => res.json({ err: error.message }));
 };
 exports.getroom = async (req, res) => {
+  const idhotel = req.body.idhotel;
   try {
-    const arrroom = req.body.rooms;
+    const hotelitem = await Hotel.findById(idhotel);
+    const arrroom = hotelitem.rooms;
     const room = await Room.find();
     // danh sach cac phong cua hotel tuong ung
     const roomhotel = room.filter((item) => {
-      for (let index = 0; index < arrroom.length; index++) {
+      for (let index = 0; index < arrroom?.length; index++) {
         if (arrroom[index] == item._id) {
           return item;
         }
       }
     });
-    res.status(200).json(roomhotel);
+    res.status(200).json({ room: roomhotel, hotelitem: hotelitem });
   } catch (error) {
-    console.log(error);
+    res.json({ err: error.message });
   }
 };
 exports.queryroom = async (req, res) => {
@@ -335,6 +334,6 @@ exports.queryroom = async (req, res) => {
     let arrfilter = arrtype.filter((item) => item.roomNumbers.length > 0);
     res.status(200).json(arrfilter);
   } catch (error) {
-    console.log(error);
+    res.json({ err: error.message });
   }
 };
