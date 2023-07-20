@@ -8,21 +8,25 @@ import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import stateadmin from "../store/stateadmin";
 export const fetchData = async (url, token, method = "GET", datapost) => {
-  const a = await fetch(`${process.env.REACT_APP_URL_FETCH}/` + url, {
-    method: method,
-    credentials: "include", // tao cookie phia client
-    withCredentials: true, // gui cookie len server
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(datapost),
-  });
-  const b = await a.json();
-  if (b?.err) {
-    throw new Error(b.err);
+  try {
+    const a = await fetch(`${process.env.REACT_APP_URL_FETCH}/` + url, {
+      method: method,
+      credentials: "include", // tao cookie phia client
+      withCredentials: true, // gui cookie len server
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datapost),
+    });
+    const b = await a.json();
+    if (b?.err) {
+      throw new Error(b.err);
+    }
+    return b;
+  } catch (error) {
+    throw new Error(error.message);
   }
-  return b;
 };
 export const GetInfoBoardService = (token) => {
   return UseUrl("getinfoboard", token);
