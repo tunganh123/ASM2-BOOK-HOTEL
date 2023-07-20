@@ -23,12 +23,7 @@ const Transaction = () => {
     const { currentData, PAGE_SIZE, startIndex } = getPagination(currentPage, statetransaction)
     return (
         <>
-            {
-                isLoading && <Spinner />
-            }
-            {
-                isError && !isLoading && <div>Some thing wrong!!!</div>
-            }
+
             <Navbar />
             <div style={{ margin: "0 30px" }}>
                 <div style={{ margin: "3rem" }}>
@@ -46,6 +41,12 @@ const Transaction = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {
+                                isLoading && <Spinner />
+                            }
+                            {
+                                isError && !isLoading && <div>Some thing wrong!!!</div>
+                            }
                             {
                                 currentData && currentData.map((item, i) => {
 

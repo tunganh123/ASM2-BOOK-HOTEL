@@ -18,10 +18,10 @@ export default function Contentcity() {
     return (
         <>
             {
-                isLoading && <SpinnerMini />
+                isLoading && <div style={{ display: "flex", justifyContent: "center" }}> <SpinnerMini /></div>
             }
             {
-                isError && !isLoading && <div>Some thing wrong!!!</div>
+                isError && !isLoading && <div style={{ textAlign: "center" }}>Some thing wrong!!!</div>
             }
             {
                 statedatacity &&
