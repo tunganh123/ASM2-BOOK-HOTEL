@@ -22,16 +22,18 @@ const Detail = () => {
 
   return (
     <>
+
+
+      <Navbar />
       {
-        isLoading && <SpinnerMini />
+        isLoading && <div style={{ display: "flex", justifyContent: "center" }}> <SpinnerMini /></div>
       }
       {
-        isError && !isLoading && <div>Some thing wrong!!!</div>
+        isError && !isLoading && <div style={{ textAlign: "center" }}>Some thing wrong!!!</div>
       }
       {
         !isError && !isLoading && statedetail &&
         <>
-          <Navbar />
           <div className='divdetail'>
             <div className="detail">
               <div className="dt">

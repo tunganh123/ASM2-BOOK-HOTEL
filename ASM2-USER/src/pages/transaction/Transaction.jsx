@@ -6,6 +6,7 @@ import Spinner from '../../UI/Spinner';
 import Pagination from '../../UI/Pagination';
 import { useSearchParams } from 'react-router-dom';
 import { getPagination } from '../../utils/helper';
+import SpinnerMini from '../../UI/SpinnerMini';
 const Transaction = () => {
 
     const user = useSelector((state) => state.user)
@@ -42,10 +43,10 @@ const Transaction = () => {
                         </thead>
                         <tbody>
                             {
-                                isLoading && <Spinner />
+                                isLoading && <div style={{ display: "flex", justifyContent: "center" }}> <SpinnerMini /></div>
                             }
                             {
-                                isError && !isLoading && <div>Some thing wrong!!!</div>
+                                isError && !isLoading && <div style={{ textAlign: "center" }}>Some thing wrong!!!</div>
                             }
                             {
                                 currentData && currentData.map((item, i) => {
