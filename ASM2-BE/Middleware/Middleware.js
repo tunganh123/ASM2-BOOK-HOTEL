@@ -24,7 +24,7 @@ exports.Middlewareadmin = (req, res, next) => {
       }
       next();
     } catch (error) {
-      res.json({ err: "Not authenticated" });
+      res.json({ err: error.message });
     }
   }
 };
