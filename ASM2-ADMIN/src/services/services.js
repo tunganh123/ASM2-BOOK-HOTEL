@@ -71,7 +71,9 @@ export const LoginMutate = () => {
     mutationFn: (datapost) => fetchData("adminlogin", "x", "POST", datapost),
     onSuccess: async (b) => {
       toast.success("SUCCESS LOGIN");
-      setCookie("tokenadmin", b.token);
+      setCookie("tokenadmin", b.token, {
+        HttpOnly: true,
+      });
       const value = jwt_decode(b.token);
       let dataadmin = {
         email: value.email,

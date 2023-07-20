@@ -24,6 +24,7 @@ exports.Middlewareadmin = (req, res, next) => {
       }
       next();
     } catch (error) {
+      console.log(error);
       res.json({ err: error.message });
     }
   }
