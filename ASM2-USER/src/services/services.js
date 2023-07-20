@@ -64,7 +64,7 @@ export const LoginMutate = () => {
     mutationFn: (datapost) => fetchData("login", "x", "POST", datapost),
     onSuccess: async (b) => {
       toast.success("SUCCESS LOGIN");
-      setCookie("token", b.token, { HttpOnly: true });
+      setCookie("token", b.token);
       const value = jwt_decode(b.token);
       dispatch(
         action.updateuser({
